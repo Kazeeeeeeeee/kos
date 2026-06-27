@@ -1,6 +1,12 @@
 
 #include "include/screen.h"
+#include "include/keyboard.h"
 
 void kmain(){
-	put_char('B');
+	move_cursor(0,0);
+	while(true)
+	{
+		keyboard_move_cursor();	
+	}
+	//put_char('A');
 }
