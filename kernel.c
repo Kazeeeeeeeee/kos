@@ -3,7 +3,7 @@
 #include "include/keyboard.h"
 
 void kmain(){
-	move_cursor(0,0);
+	move_cursor(9,0);
 	while(true)
 	{
 		keyboard_move_cursor();	

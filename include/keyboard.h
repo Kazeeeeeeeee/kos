@@ -23,17 +23,27 @@ static inline void keyboard_move_cursor() {
 
         // 3. 根據按下的按鍵，修改 screen.h 中的 vga_row 與 vga_col
         switch (scancode) {
-            case KEY_UP:
-                if (vga_row > 0) vga_row--;
-                break;
-            case KEY_DOWN:
-                if (vga_row < vga_rows - 1) vga_row++;
-                break;
+            //case KEY_UP:
+            //    if (vga_row > 0) vga_row--;
+            //    break;
+            //case KEY_DOWN:
+            //    if (vga_row < vga_rows - 1) vga_row++;
+            //    break;
             case KEY_LEFT:
-                if (vga_col > 0) vga_col--;
+                if (vga_col > 0){ 
+			vga_col--;
+		}else if(vga_row > 0){
+			vga_col = vga_cols - 1;
+			vga_row--;
+		}
                 break;
             case KEY_RIGHT:
-                if (vga_col < vga_cols - 1) vga_col++;
+                if (vga_col < vga_cols - 1){
+			vga_col++;
+		}else if(vga_row < vga_rows - 1){
+			vga_col = 0;
+			vga_row++;
+		}
                 break;
         }
 
