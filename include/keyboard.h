@@ -3,7 +3,7 @@
 
 #include "io.h"
 #include "screen.h"
-#include "shell.h" // 引入我們剛寫好的 Shell
+#include "shell.h" 
 
 #define KEY_LEFT  0x4B
 #define KEY_RIGHT 0x4D
@@ -16,9 +16,7 @@ const char kbd_us[128] = {
     '*', 0, ' '
 };
 
-/* * keyboard_move_cursor
- * 限制游標不能移動到提示字元 (MyOS> ) 之內
- */
+
 static inline void keyboard_move_cursor(uint8 scancode) {
     switch (scancode) {
         case KEY_LEFT:
@@ -35,16 +33,13 @@ static inline void keyboard_move_cursor(uint8 scancode) {
     move_cursor(vga_row, vga_col);
 }
 
-/* * keyboard_handle_typing
- * 新增了 Enter 讀取 VGA 記憶體並執行指令的邏輯
- */
 static inline void keyboard_handle_typing(uint8 scancode) {
     if (scancode < 128 && kbd_us[scancode] != 0) {
         char ascii = kbd_us[scancode];
         uint16 *vga_buffer = (uint16 *)0xB8000;
         
         if (ascii == '\n') { 
-            // 1. 【從螢幕讀取指令】
+            // 從螢幕讀取指令
             char cmd_buffer[80];
             int idx = 0;
             int last_char_idx = -1;
@@ -63,18 +58,18 @@ static inline void keyboard_handle_typing(uint8 scancode) {
             }
             cmd_buffer[idx] = '\0'; // 字串結尾
             
-            // 2. 視覺換行
+            // 視覺換行
             vga_col = 0;
             if (vga_row < vga_rows - 1) vga_row++;
             
-            // 3. 丟給 Shell 執行
+            // Shell 執行
             execute_command(cmd_buffer);
             
-            // 4. 指令執行完畢，印出新的提示字元
+            // 印出新的提示字元
             print_prompt();
 
         } else if (ascii == '\b') { 
-            // 【處理 Backspace 退格】保護邊界為 PROMPT_LEN
+            // 處理 Backspace 退格,保護邊界為 PROMPT_LEN
             if (vga_col > PROMPT_LEN) {
                 vga_col--;
                 for (int i = vga_col; i < vga_cols - 1; i++) {
@@ -86,7 +81,7 @@ static inline void keyboard_handle_typing(uint8 scancode) {
                 vga_buffer[pos_end] = (0x0F << 8) | ' ';
             }
         } else {
-            // 【一般打字】防止超出單行寬度
+            // 一般打字,防止超出單行寬度
             if (vga_col < vga_cols - 1) {
                 uint16 pos = (vga_row * vga_cols) + vga_col;
                 vga_buffer[pos] = (0x0F << 8) | ascii;
@@ -110,4 +105,4 @@ static inline void poll_keyboard() {
     }
 }
 
-#endif // KEYBOARD_H
+#endif
