@@ -9,26 +9,9 @@ It can't be actually installed so far, but if you wanna run it on your Linux QEM
 ```bash
 ./build.sh
 ```
-And that's it, now you can enjoy one of the smallest OS in the world
+And that's it, now you can now enjoy KOS!
 
 # Contributing
 
 idk if anyone really want to contribute this, but if you want, feel free to contact me
 
-# Command
-Print text (e.g. echo hello world)
-```bash
-echo
-```
-Look for available command
-```bash
-help
-```
-Show OS version and information
-```bash
-info
-```
-Clear the terminal screen
-```bash
-clear
-```
