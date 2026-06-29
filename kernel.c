@@ -1,17 +1,22 @@
-
 #include "include/screen.h"
-#include "include/keyboard.h"
+#include "include/multiboot.h"
 
-void kmain(){
-	clear_screen();
-	//move_cursor(0,0);
-	print_string("Hello! Welcome to KOS! It is good to have you here. ^w^\n\n");
-	//print_ascii_art();
-	print_prompt();
-	while(true)
-	{
-		//keyboard_move_cursor();
-		poll_keyboard();	
-	}
-	//put_char('A');
+void kmain(uint32 magic, multiboot_info_t *mbi) {
+    // Multiboot 規範中，flags 的第 12 位元 (0x1000) 若為 1，表示 framebuffer 有效
+    if (!(mbi->flags & (1 << 12))) {
+        // 若沒有圖形資訊，這裡死循環避免存取錯誤位址
+        while (1); 
+    }
+
+    // 從 mbi 取得正確的線性幀緩衝區位址
+    framebuffer = (uint32 *)(uint32)mbi->framebuffer_addr;
+
+    // 初始化
+    clear_screen(0x00000000);
+
+
+    draw_char(10, 10, 'A', 0xFFFFFF);
+
+    while (1) {
+    }
 }

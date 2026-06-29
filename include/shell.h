@@ -68,7 +68,10 @@ static inline void execute_command(char *cmd) {
     	}else{
 	    print_string("This is a string output function, try type <echo Hello World!> \n");
 	}	    
-    } else {
+    } else if(strcmp(cmd,"miku") == 0){
+    	print_miku();
+    	print_string("\n");
+    }else {
         print_string("Command not found: ");
         print_string(cmd);
         print_string("\n");
