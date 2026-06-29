@@ -19,7 +19,8 @@ void kmain(uint32 magic, multiboot_info_t *mbi) {
     //    }
     //}
 
-    draw_char(10, 10, 'A', 0xFFFFFF);
+    //draw_char(10, 10, 'A', 0xFFFFFF);
+    print_string(10, 10, "Hello, KOS!", 0xFFFFFF);
     while (1) {
     }
 }

@@ -859,6 +859,7 @@ static inline void clear_screen(uint32 color) {
     }
 }
 
+
 /* 渲染單個字元：根據點陣數據畫點 */
 static inline void draw_char(uint32 x, uint32 y, char c, uint32 color) {
     // 每個字元佔用 16 個 uint16 (代表 16 行)
@@ -873,5 +874,20 @@ static inline void draw_char(uint32 x, uint32 y, char c, uint32 color) {
         }
     }
 }
+static inline void print_string(uint32 x, uint32 y, const char *str, uint32 color) {
+    uint32 current_x = x;
+    while (*str != '\0') {
+        // 如果遇到換行符，可以簡單處理（選做）
+        if (*str == '\n') {
+            y += 18; // 換行，增加一點行距
+            current_x = x;
+        } else {
+            draw_char(current_x, y, *str, color);
+            current_x += 9; // 每個字元佔 8 像素 + 1 像素間距
+        }
+        str++;
+    }
+}
+
 
 #endif
